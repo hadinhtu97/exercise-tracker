@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', (req, res) => res.sendFile(__dirname + "/views/index.html"));
 app.use(express.static(__dirname + "/public"));
 
+//create schemas and models
 const dbErr = { error: "Some error happened, please try angain later" };
 const userSchema = new mongoose.Schema({
     username: String
@@ -27,7 +28,29 @@ const exerciseSchema = new mongoose.Schema({
 })
 const Exercise = mongoose.model('Excerise', exerciseSchema);
 
-
+//setup post new user
+app.post('/api/exercise/new-user', (req, res) => {
+    User.find({ username: req.body.username }, (err, data) => {
+        if (err) {
+            res.json(dbErr);
+            console.log(err)
+        } else {
+            if (data.length == 0) {
+                let user = new User({ username: req.body.username });
+                user.save((err, data) => {
+                    if (err) {
+                        res.json(dbErr);
+                        console.log(err);
+                    } else {
+                        res.json(data);
+                    }
+                })
+            } else {
+                res.json("Username already taken");
+            }
+        }
+    })
+})
 
 
 
