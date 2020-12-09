@@ -11,28 +11,38 @@
 <body>
     <h1>Exercise Tracker</h1>
     <hr>
-    <div>
-        <p>Create a new user </p>
-        <form action="api/exercise/new-user" method="POST">
-            <input type="text" id="username" name="username" required placeholder="user name (*)" minlength="5"
-                maxlength="20"> <br>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-    <hr>
-    <div>
-        <p>Add exercise to user </p>
-        <form action="api/exercise/add" method="POST">
-            <input type="text" id="userId" name="userId" required placeholder="user id (*)" minlength="5"
-                maxlength="30"> <br>
-            <input type="text" id="description" name="description" required placeholder="description (*)" minlength="5"
-                maxlength="50"><br>
-            <input type="number" id="duration" name="duration" required placeholder="duration (*)"><br>
-            <input type="date" id="date" name="date" required placeholder="date" value="2020-01-01" min="2020-01-01"
-                max="2030-01-01"><br>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
+    <table>
+        <tr>
+            <td>
+                <p>Create a new user </p>
+            </td>
+            <td>
+                <p>Add exercise to user </p>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form action="api/exercise/new-user" method="POST">
+                    <input type="text" id="username" name="username" required placeholder="user name (*)" minlength="5"
+                        maxlength="20"> <br>
+                    <input type="submit" value="Submit">
+                </form>
+            </td>
+            <td>
+                <form action="api/exercise/add" method="POST">
+                    <input type="text" id="userId" name="userId" required placeholder="user id (*)" minlength="5"
+                        maxlength="30"> <br>
+                    <input type="text" id="description" name="description" required placeholder="description (*)"
+                        minlength="5" maxlength="50"><br>
+                    <input type="number" id="duration" name="duration" required placeholder="duration (*)"><br>
+                    <input type="date" id="date" name="date" required placeholder="date" value="2020-01-01"
+                        min="2020-01-01" max="2030-01-01"><br>
+                    <input type="submit" value="Submit">
+                </form>
+            </td>
+        </tr>
+    </table>
     <hr>
     <div id="code">
         <p>Get all user</p>
