@@ -79,7 +79,7 @@ app.post('/api/exercise/add', (req, res) => {
                     userId: req.body.userId,
                     description: req.body.description,
                     duration: req.body.duration,
-                    date: req.body.date == '' ? moment().format('DD/MM/YYYY') : moment(req.body.date).format('DD/MM/YYYY')
+                    date: req.body.date == '' ? moment().format('LL') : moment(req.body.date).format('LL')
                 })
                 exercise.save((err, ex) => {
                     if (err) {
