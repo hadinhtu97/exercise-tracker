@@ -14,7 +14,8 @@
     <div>
         <p>Create a new user </p>
         <form action="api/exercise/new-user" method="POST">
-            <input type="text" id="username" name="username" required placeholder="user name"> <br>
+            <input type="text" id="username" name="username" required placeholder="user name (*)" minlength="5"
+                maxlength="20"> <br>
             <input type="submit" value="Submit">
         </form>
     </div>
@@ -22,9 +23,11 @@
     <div>
         <p>Add more information </p>
         <form action="api/exercise/add" method="POST">
-            <input type="text" id="userId" name="userId" required placeholder="user id"> <br>
-            <input type="text" id="description" name="description" required placeholder="description"><br>
-            <input type="number" id="duration" name="duration" required placeholder="duration"><br>
+            <input type="text" id="userId" name="userId" required placeholder="user id (*)" minlength="5"
+                maxlength="30"> <br>
+            <input type="text" id="description" name="description" required placeholder="description (*)" minlength="5"
+                maxlength="50"><br>
+            <input type="number" id="duration" name="duration" required placeholder="duration (*)"><br>
             <input type="date" id="date" name="date" required placeholder="date" value="2020-01-01"><br>
             <input type="submit" value="Submit">
         </form>
