@@ -109,7 +109,7 @@ app.post('/api/exercise/add', (req, res) => {
 
 //get log of user
 app.get('/api/exercise/log', (req, res) => {
-    if (req.query.userId == undefined || req.query.userId == '') {
+    if (req.query.userId == undefined) {
         res.json('Unknow UserId')
     } else {
         User.find({ _id: req.query.userId }, (err, users) => {
@@ -118,29 +118,53 @@ app.get('/api/exercise/log', (req, res) => {
                 return console.log(err);
             } else {
                 if (users.length == 0) {
-                    res.json("Cannot find user with id: " + req.body.userId);
+                    res.json("Cannot find user with id: " + req.query.userId);
                 } else {
-                    Exercise.find({ userId: req.query.userId }, (err, exercises) => {
+                    let limit = req.query.limit === undefined ? false : parseInt(req.query.limit);
+                    Exercise.find({ userId: req.query.userId }).limit(limit).exec((err, exercises) => {
                         if (err) {
                             res.json(dbErr);
                             return console.log(err);
                         } else {
-                            let listEx = [];
-                            if (exercises.length != 0) {
-                                exercises.forEach(ex => {
-                                    listEx.push({
-                                        description: ex.description,
-                                        duration: ex.duration,
-                                        date: convertDate(ex.date)
+                            if (req.query.from == undefined || req.query.to == undefined) {
+                                let listEx = [];
+                                if (exercises.length != 0) {
+                                    exercises.forEach(ex => {
+                                        listEx.push({
+                                            description: ex.description,
+                                            duration: ex.duration,
+                                            date: convertDate(ex.date)
+                                        })
                                     })
+                                }
+                                res.json({
+                                    _id: users[0]._id,
+                                    username: users[0].username,
+                                    count: listEx.length,
+                                    log: listEx
+                                })
+                            } else {
+                                let fromDate = new Date(req.query.from);
+                                let toDate = new Date(req.query.to);
+                                let listEx = [];
+                                if (exercises != 0) {
+                                    exercises.filter(ex => new Date(ex.date) > fromDate && new Date(ex.date) < toDate).forEach(ex => {
+                                        listEx.push({
+                                            description: ex.description,
+                                            duration: ex.duration,
+                                            date: convertDate(ex.date)
+                                        })
+                                    })
+                                }
+                                res.json({
+                                    _id: users[0]._id,
+                                    username: users[0].username,
+                                    from: convertDate(fromDate.toUTCString()),
+                                    to: convertDate(toDate.toUTCString),
+                                    count: listEx.length,
+                                    log: listEx
                                 })
                             }
-                            res.json({
-                                _id: users[0]._id,
-                                username: users[0].username,
-                                count: listEx.length,
-                                log: listEx
-                            })
                         }
                     })
                 }
