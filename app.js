@@ -28,7 +28,7 @@ const exerciseSchema = new mongoose.Schema({
 })
 const Exercise = mongoose.model('Excerise', exerciseSchema);
 
-//setup post new user
+//post new user
 app.post('/api/exercise/new-user', (req, res) => {
     User.find({ username: req.body.username }, (err, data) => {
         if (err) {
@@ -48,6 +48,18 @@ app.post('/api/exercise/new-user', (req, res) => {
             } else {
                 res.json("Username already taken");
             }
+        }
+    })
+})
+
+//get all user
+app.get('/api/exercise/users', (req, res) => {
+    User.find({}, (err, data) => {
+        if (err) {
+            res.send(dbErr);
+            console.log(err);
+        } else {
+            res.json(data);
         }
     })
 })
