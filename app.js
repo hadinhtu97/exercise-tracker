@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require('cors');
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const moment = require("moment");
 
 const app = express();
 const port = 3000;
@@ -24,7 +25,7 @@ const exerciseSchema = new mongoose.Schema({
     userId: String,
     description: String,
     duration: Number,
-    date: Date
+    date: String
 })
 const Exercise = mongoose.model('Excerise', exerciseSchema);
 
@@ -33,14 +34,14 @@ app.post('/api/exercise/new-user', (req, res) => {
     User.find({ username: req.body.username }, (err, data) => {
         if (err) {
             res.json(dbErr);
-            console.log(err)
+            return console.log(err);
         } else {
             if (data.length == 0) {
                 let user = new User({ username: req.body.username });
                 user.save((err, data) => {
                     if (err) {
                         res.json(dbErr);
-                        console.log(err);
+                        return console.log(err);
                     } else {
                         res.json(data);
                     }
@@ -57,14 +58,47 @@ app.get('/api/exercise/users', (req, res) => {
     User.find({}, (err, data) => {
         if (err) {
             res.send(dbErr);
-            console.log(err);
+            return console.log(err);
         } else {
             res.json(data);
         }
     })
 })
 
-
+//post exercise to user
+app.post('/api/exercise/add', (req, res) => {
+    User.find({ _id: req.body.userId }, (err, data) => {
+        if (err) {
+            res.send(dbErr);
+            return console.log(err);
+        } else {
+            if (data.length == 0) {
+                res.json("Cannot find user with id: " + req.body.userId);
+            } else {
+                let exercise = new Exercise({
+                    userId: req.body.userId,
+                    description: req.body.description,
+                    duration: req.body.duration,
+                    date: req.body.date == '' ? moment().format('DD/MM/YYYY') : moment(req.body.date).format('DD/MM/YYYY')
+                })
+                exercise.save((err, ex) => {
+                    if (err) {
+                        res.json(dbErr);
+                        return console.log(err);
+                    } else {
+                        res.json({
+                            _id: ex.userId,
+                            username: data[0].username,
+                            description: ex.description,
+                            duration: ex.duration,
+                            date: ex.date
+                        })
+                    }
+                })
+            }
+        }
+    })
+})
 
 
 
