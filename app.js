@@ -15,7 +15,7 @@ app.get('/', (req, res) => res.sendFile(__dirname + "/views/index.html"));
 app.use(express.static(__dirname + "/public"));
 
 //create schemas and models
-const dbErr = { error: "Some error happened, please try angain later" };
+const dbErr = { error: "Server database error happened, please try angain later" };
 const userSchema = new mongoose.Schema({
     username: String
 })
@@ -107,7 +107,47 @@ app.post('/api/exercise/add', (req, res) => {
     })
 })
 
-
+//get log of user
+app.get('/api/exercise/log', (req, res) => {
+    if (req.query.userId == undefined || req.query.userId == '') {
+        res.json('Unknow UserId')
+    } else {
+        User.find({ _id: req.query.userId }, (err, users) => {
+            if (err) {
+                res.json(dbErr);
+                return console.log(err);
+            } else {
+                if (users.length == 0) {
+                    res.json("Cannot find user with id: " + req.body.userId);
+                } else {
+                    Exercise.find({ userId: req.query.userId }, (err, exercises) => {
+                        if (err) {
+                            res.json(dbErr);
+                            return console.log(err);
+                        } else {
+                            let listEx = [];
+                            if (exercises.length != 0) {
+                                exercises.forEach(ex => {
+                                    listEx.push({
+                                        description: ex.description,
+                                        duration: ex.duration,
+                                        date: convertDate(ex.date)
+                                    })
+                                })
+                            }
+                            res.json({
+                                _id: users[0]._id,
+                                username: users[0].username,
+                                count: listEx.length,
+                                log: listEx
+                            })
+                        }
+                    })
+                }
+            }
+        })
+    }
+})
 
 
 
