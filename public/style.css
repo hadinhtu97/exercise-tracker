@@ -39,6 +39,9 @@ input[type=submit]:hover {
 
 #code {
     margin: 50px;
+}
+
+code {
     font-size: 30px;
     background-color: #ddd;
 }
