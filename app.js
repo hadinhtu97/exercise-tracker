@@ -99,7 +99,7 @@ app.post('/api/exercise/add', (req, res) => {
                             username: data[0].username,
                             description: ex.description,
                             duration: ex.duration,
-                            date: convertDate(ex.date);
+                            date: convertDate(ex.date)
                         })
                     }
                 })
