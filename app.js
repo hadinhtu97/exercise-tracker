@@ -160,7 +160,7 @@ app.get('/api/exercise/log', (req, res) => {
                                     _id: users[0]._id,
                                     username: users[0].username,
                                     from: convertDate(fromDate.toUTCString()),
-                                    to: convertDate(toDate.toUTCString),
+                                    to: convertDate(toDate.toUTCString()),
                                     count: listEx.length,
                                     log: listEx
                                 })
