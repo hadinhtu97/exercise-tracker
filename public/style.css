@@ -1,3 +1,44 @@
 body {
     text-align: center;
+    font-family: sans-serif;
+}
+
+h1 {
+    font-size: 40px;
+    color: #dd4814;
+}
+
+hr {
+    width: 70%;
+    border: 1px solid #5e0080;
+}
+
+p {
+    font-size: 20px;
+    color: #5e0080;
+}
+
+input {
+    margin: 5px 0;
+    outline: none;
+    width: 200px;
+    height: 20px;
+    border: 1px solid #5e0080;
+}
+
+input[type=submit] {
+    background-color: white;
+    width: 100px;
+    height: 30px;
+    color: #dd4814;
+}
+
+input[type=submit]:hover {
+    background-color: cyan;
+}
+
+#code {
+    margin: 50px;
+    font-size: 30px;
+    background-color: #ddd;
 }
