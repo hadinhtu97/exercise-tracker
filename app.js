@@ -29,6 +29,14 @@ const exerciseSchema = new mongoose.Schema({
 })
 const Exercise = mongoose.model('Excerise', exerciseSchema);
 
+//conver date function, make date to pass fcc test fuking machine 
+let convertDate = (dateString) => {
+    dateString = dateString.slice(0, dateString.length - 13);
+    dateString = dateString.split(",").join('');
+    dateString = dateString.replace(/(\w+)\s(\w+)\s(\w+)\s(\w+)/, "$1 $3 $2 $4")
+    return dateString;
+}
+
 //post new user
 app.post('/api/exercise/new-user', (req, res) => {
     User.find({ username: req.body.username }, (err, data) => {
@@ -79,7 +87,7 @@ app.post('/api/exercise/add', (req, res) => {
                     userId: req.body.userId,
                     description: req.body.description,
                     duration: req.body.duration,
-                    date: req.body.date == '' ? moment().format('LL') : moment(req.body.date).format('LL')
+                    date: req.body.date == '' ? new Date().toUTCString() : new Date(req.body.date).toUTCString()
                 })
                 exercise.save((err, ex) => {
                     if (err) {
@@ -91,7 +99,7 @@ app.post('/api/exercise/add', (req, res) => {
                             username: data[0].username,
                             description: ex.description,
                             duration: ex.duration,
-                            date: ex.date
+                            date: convertDate(ex.date);
                         })
                     }
                 })
