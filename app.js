@@ -11,8 +11,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 app.use(cors({ optionsSuccessStatus: 200 }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => res.sendFile(__dirname + "/views/index.html"));
-app.use(express.static(__dirname + "/public"));
+app.get('/', (req, res) => res.send('Read README to use api.'));
 
 //create schemas and models
 const dbErr = { error: "Server database error happened, please try angain later" };
@@ -28,7 +27,6 @@ const exerciseSchema = new mongoose.Schema({
 })
 const Exercise = mongoose.model('Excerise', exerciseSchema);
 
-//conver date function, make date to pass fcc test fuking machine 
 let convertDate = (dateString) => {
     dateString = dateString.slice(0, dateString.length - 13);
     dateString = dateString.split(",").join('');
