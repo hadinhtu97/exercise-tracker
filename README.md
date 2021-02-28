@@ -20,3 +20,6 @@ npm run start
 * POST
   * `[]/api/exercise/new-user`: with form data `username` to create a new user
   * `[]/api/exercise/add`: with form data `userId=_id`, `description`, `duration`, and optionally `date`. If no `date` is supplied, the current date will be used.
+
+### Demo
+[Link Demo](https://exercise-tracker.hadinhtu97.repl.co/)
